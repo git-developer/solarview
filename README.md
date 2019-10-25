@@ -18,7 +18,9 @@ Advantages:
 * Docker
 * Docker Compose
 
-Installation on Debian-based systems: `sudo apt install docker-ce docker-compose`
+Installation on Debian-based systems:
+
+```sudo apt install docker-ce docker-compose```
 
 ### Usage
 #### Configuration
@@ -27,12 +29,16 @@ Installation on Debian-based systems: `sudo apt install docker-ce docker-compose
 See the examples on how to create a `docker-compose.yml` for your environment.
 
 #### Start
-* Run `docker-compose up -d`
+* Run:
 
-When the option `restart: unless-stopped` is configured in `docker-compose.yml`, SolarView is startetd automatically at system boot.
+```docker-compose up -d```
+
+When the option `restart: unless-stopped` is configured in `docker-compose.yml`, SolarView is started automatically at system boot.
 
 #### Stop
-* Run `docker-compose down`
+* Run:
+
+```docker-compose down```
 
 ### Migration from native SolarView
 
@@ -41,6 +47,7 @@ When the option `restart: unless-stopped` is configured in `docker-compose.yml`,
 1. Copy temp directory of native SolarView to `./data/solarview-temp`
 
 Example:
+
 ```
 /home/pi/svrpi/stop.sh
 cp -a /opt/svrpi ./data/solarview
@@ -49,7 +56,6 @@ cp -a /var/tmp ./data/solarview-temp
 
 Subdirectories for proxy applications (e.g. `steca-fb`, `d0-fb`) are not used and may safely be deleted from `./data/solarview`.
 
-
 ## Developer documentation
 In this section, the term _app_ is used for either the SolarView main application (`solarview-fb`) or a SolarView proxy application (e.g. `steca-fb`).
 
@@ -57,13 +63,15 @@ In this section, the term _app_ is used for either the SolarView main applicatio
 To build the app `foo-fb`, run: `./image/build-image foo-fb`.
 
 The build may be customized using the following environment variables:
-    * `IMAGE_REPOSITORY`: name of the docker image repository; default: `ckware`
-    * `IMAGE_NAME`: name of the docker image; default: `solarview-foo` (exception: `solarview` for SolarView main app)
+
+* `IMAGE_REPOSITORY`: name of the docker image repository; default: `ckware`
+* `IMAGE_NAME`: name of the docker image; default: `solarview-foo` (exception: `solarview` for SolarView main app)
 
 To see a list of supported apps, run `./image/build-image`.
 
 ### How to add support for an unsupported app?
 Steps to add support for the unsupported app `foo-fb`:
+
 1. Create a directory `./image/app/foo-fb` containing
     * file `env`
     * directory `build-context`
@@ -107,6 +115,7 @@ The `env` file and the directories may be empty. If you want to add an empty dir
 
 ### What happens within a build of an app?
 The following steps are performed when an app is built:
+
 1. Create a docker image
     1. Download the ZIP archive of the app
     1. Select the binaries (variable `$APP_BINARIES`) that match the runtime architecture
