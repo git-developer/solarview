@@ -1,0 +1,47 @@
+#!/bin/sh
+
+#
+# SolarView build script
+#
+# This script allows to package a SolarView app in a Docker image.
+#
+
+home=$(dirname "$0")
+if [ -z "$1" ]; then
+  # The user did not select an app to build, so we give him a list of supported apps
+  for app in $(find "${home}/app" -mindepth 1 -maxdepth 1 -type f -exec basename {} \;); do apps="${apps:-$app}${apps:+ | $app}"; done
+  >&2 echo "Syntax: $0 [${apps}]"
+  return 1
+fi
+app_env="${home}/app/$1/env"
+arch_env="${home}/arch/$(arch)/env"
+
+# read variables for current app and architecture and expose them to child processes
+set -a -e
+. "${app_env}"
+. "${arch_env}"
+APP_NAME="${APP_NAME:-$1}"
+IMAGE_REPOSITORY="${IMAGE_REPOSITORY:-ckware}"
+IMAGE_NAME="${IMAGE_NAME:-$(echo ${APP_NAME} | sed -E 's/^(solarview-|(.+)(-))fb$/solarview\3\2/')}"
+IMAGE_FULLNAME="${IMAGE_REPOSITORY}/${IMAGE_NAME}"
+IMAGE_DEFAULT_ALIAS="${IMAGE_FULLNAME}:latest"
+BUILD_ID=$(echo $(date -u +%Y%m%d_%H%M%S)-$(git rev-parse --short HEAD)-$(cat /dev/urandom | tr -dc '0-9' | fold -w 8 | head -n 1))
+
+# build runtime image and remove intermediate image
+build_args=$(for arg in 'BUILD_ID' 'APP_NAME' 'APP_ARCHIVE_URL' 'APP_BINARIES' \
+                        $(cat "${arch_env}" "${app_env}" \
+                        | sed --posix -n -E 's/^[\t ]*([^#][^\t ]*)=.*$/\1/p' \
+                        | sort \
+                        | uniq);
+             do printf " --build-arg ${arg}"; done)
+docker build -t "${IMAGE_DEFAULT_ALIAS}" ${build_args} "${home}"
+docker image prune -f --filter "label=build=${BUILD_ID}"
+
+# read variables for version and date from the image
+env=$(mktemp) && echo $(docker run --rm "${IMAGE_DEFAULT_ALIAS}" cat /env) >>"${env}" && . "${env}" && rm "${env}"
+
+# tag the image
+docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:v${APP_VERSION}" &&\
+docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:${APP_DATE}" &&\
+{ [ "${APP_DATE}" = "${RELEASE_DATE}" ] || docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:r${RELEASE_DATE}"; }
+docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:b${BUILD_ID}"

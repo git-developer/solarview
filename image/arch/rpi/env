@@ -1,0 +1,2 @@
+ARCH_ID=rpi
+RUNTIME_BASE_IMAGE=debian:stable-slim

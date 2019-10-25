@@ -1,0 +1,20 @@
+#!/bin/sh
+
+csmtp="${PWD}/CSmtp"
+binaries='solarview-fb busybox CSmtp curl'
+arch_dir="Andere/${ARCH_ID}"
+backup_dir='Andere/71xx'
+
+cd "${APP_HOME}"
+mkdir "${backup_dir}"
+for binary in $binaries; do
+  mv "${binary}" "${backup_dir}/"
+  chmod +x "${arch_dir}/${binary}"
+  ln -s "${arch_dir}/${binary}" "${binary}"
+done
+
+# the built-in CSmtp binary requires an old libssl version that is not easy to
+# install on current operating systems, thus we install a portable drop-in
+# replacement for it
+mv "${csmtp}" "${arch_dir}/CSmtp.sh"
+ln -sf "${arch_dir}/CSmtp.sh" "CSmtp"

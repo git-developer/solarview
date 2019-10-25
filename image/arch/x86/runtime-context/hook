@@ -1,0 +1,4 @@
+#!/bin/sh
+# all binaries require libc6-i386
+apt-get update
+apt-get -y install libc6-i386

@@ -1,0 +1,6 @@
+#!/bin/sh
+apt-get update
+# curl is necessary for ftp upload; the builtin version does not work on the
+# x86 architecture, so we use an external version
+apt-get install -y curl
+ln -sf "$(which curl)" "${APP_HOME}/curl"
