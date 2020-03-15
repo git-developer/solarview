@@ -35,23 +35,24 @@ while true; do
 done
 
 # prepare curl arguments
-protocol="smtp"
 date=$(date -R)
 if [ -z "${security}" ]; then
+  protocol="smtp"
   default_port=25
 elif [ "${security}" = "tls" ]; then
+  protocol="smtps"
   default_port=587
 elif [ "${security}" = "ssl" ]; then
+  protocol="smtps"
   default_port=465
 fi
 port="${port:-${default_port}}"
-ssl="${security:+--ssl-reqd}"
 verbose="${debug:+-v}"
 recipients="--mail-rcpt ${recipient}${recipient2:+ --mail-rcpt ${recipient2}}${recipient3:+ --mail-rcpt ${recipient3}}"
 
 # send mail via curl
 cat <<EOF | curl \
-     ${ssl} \
+     ${security:+"--ssl-reqd"} \
      ${verbose} \
      --url "${protocol}://${host}:${port}" \
      --mail-from "${sender}" \
