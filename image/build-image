@@ -9,7 +9,7 @@
 home=$(dirname "$0")
 if [ -z "$1" ]; then
   # The user did not select an app to build, so we give him a list of supported apps
-  for app in $(find "${home}/app" -mindepth 1 -maxdepth 1 -type f -exec basename {} \;); do apps="${apps:-$app}${apps:+ | $app}"; done
+  for app in $(find "${home}/app" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do apps="${apps:-$app}${apps:+ | $app}"; done
   >&2 echo "Syntax: $0 [${apps}]"
   return 1
 fi
