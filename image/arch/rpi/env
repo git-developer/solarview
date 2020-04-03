@@ -1,3 +1,2 @@
 ARCH_ID=rpi
-ARCH_ID_DOCKER=arm
 RUNTIME_BASE_IMAGE=debian:stable-slim
