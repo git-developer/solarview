@@ -51,13 +51,17 @@ docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:${APP_DATE}" &&\
 docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:b${BUILD_ID}"
 
 if [ "${DO_PUSH_MULTIARCH:-no}" = 'yes' ]; then
-  arch="${ARCH_ID_DOCKER:-${ARCH_ID}}"
-  if [ -z "${arch}" ]; then
-    >&2 echo "Error: DO_PUSH_MULTIARCH is set, but ARCH_ID_DOCKER is missing."
-    return 1
-  fi
+  arch="$(arch)"
+  case "${arch}" in
+    x86_64)   arch_id=amd64  ;;
+    aarch64)  arch_id=arm64  ;;
+    armv7*)   arch_id=arm/v7 ;;
+    armv6)    arch_id=arm/v6 ;;
+    arm*)     arch_id=arm    ;;
+    *)        arch_id="${arch}" ;;
+  esac
   for tag in "${IMAGE_DEFAULT_TAG}" "v${APP_VERSION}"; do
-    image="${IMAGE_FULLNAME}:${arch}-${tag}"
+    image="${IMAGE_FULLNAME}:${arch_id}-${tag}"
     docker image tag "${IMAGE_DEFAULT_ALIAS}" "${image}"
     docker push "${image}"
   done
