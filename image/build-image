@@ -50,7 +50,7 @@ docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:${APP_DATE}" &&\
 { [ "${APP_DATE}" = "${RELEASE_DATE}" ] || docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:r${RELEASE_DATE}"; }
 docker image tag "${IMAGE_DEFAULT_ALIAS}" "${IMAGE_FULLNAME}:b${BUILD_ID}"
 
-if [ "${DO_PUSH_MULTIARCH:-no}" = 'yes' ]; then
+if [ "${DO_PUSH_ARCH_TAG:-yes}" = 'yes' ]; then
   arch="$(arch)"
   for tag in "${IMAGE_DEFAULT_TAG}" "v${APP_VERSION}"; do
     image="${IMAGE_FULLNAME}:${arch}-${tag}"
