@@ -17,9 +17,7 @@ Advantages:
 ### Requirements
 * Docker Compose
 
-Installation on Debian-based systems:
-
-```sudo apt install docker-compose```
+Installation on Debian-based systems: `sudo apt install docker-compose`
 
 ### Usage
 #### Configuration
@@ -28,16 +26,12 @@ Installation on Debian-based systems:
 See the examples on how to create a `docker-compose.yml` for your environment.
 
 #### Start
-* Run:
-
-```docker-compose up -d```
+* Run: `docker-compose up -d`
 
 When the option `restart: unless-stopped` is configured in `docker-compose.yml`, SolarView is started automatically at system boot.
 
 #### Stop
-* Run:
-
-```docker-compose down```
+* Run: `docker-compose down`
 
 ### Migration from native SolarView
 
@@ -47,10 +41,10 @@ When the option `restart: unless-stopped` is configured in `docker-compose.yml`,
 
 Example:
 
-```
-/home/pi/svrpi/stop.sh
-cp -a /opt/svrpi ./data/solarview
-cp -a /var/tmp ./data/solarview-temp
+```shell
+$ /home/pi/svrpi/stop.sh
+$ cp -a /opt/svrpi ./data/solarview
+$ cp -a /var/tmp ./data/solarview-temp
 ```
 
 Subdirectories for proxy applications (e.g. `steca-fb`, `d0-fb`) are not used and may safely be deleted from `./data/solarview`.
@@ -77,15 +71,15 @@ Manually trigger the GitLab CI build or [create an issue](https://github.com/git
 Steps to add support for the unsupported app `foo-fb`:
 
 1. Create a git repository `solarview-foo` containing the file `.gitlab-ci.yml` with the following content:
-``` 
-include:
-  remote: 'https://github.com/git-developer/solarview-base/raw/develop/.gitlab-ci.yml'
-
-variables:
-  DOCKERFILE_URL: 'https://github.com/git-developer/solarview-base/raw/develop/Dockerfile'
-  BUILD_ARGS: 'APP_NAME=foo-fb'
-  IMAGE_TITLE: 'SolarView Foo-Proxy'
-```
+    ```yaml
+    include:
+      remote: 'https://github.com/git-developer/solarview-base/raw/develop/.gitlab-ci.yml'
+    
+    variables:
+      DOCKERFILE_URL: 'https://github.com/git-developer/solarview-base/raw/develop/Dockerfile'
+      BUILD_ARGS: 'APP_NAME=foo-fb'
+      IMAGE_TITLE: 'SolarView Foo-Proxy'
+    ```
 1. If the app needs special handling, customize the `.gitlab-ci.yml` and/or the Dockerfile
 1. Build the repository via [GitLab CI](https://gitlab.com/).
    The images will be built and pushed to the registry that is configured in the GitLab project
