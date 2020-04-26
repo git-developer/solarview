@@ -62,16 +62,16 @@ In this section, the term _app_ is used for either the SolarView main applicatio
 There's no need to build an image because this is done automatically.
 The build creates images for all supported architectures with appropriate tags and labels.
 See one of the build repositories if you're interested in the details, e.g.
-* [solarview-linux](../solarview-linux)
-* [solarview-d0](../solarview-d0)
-* [solarview-steca](../solarview-steca)
-* [solarview-base](../solarview-base)
+* [solarview-linux](https://github.com/git-developer/solarview-linux)
+* [solarview-d0](https://github.com/git-developer/solarview-d0)
+* [solarview-steca](https://github.com/git-developer/solarview-steca)
+* [solarview-base](https://github.com/git-developer/solarview-base)
 
 Alternatively, the build may be run manually for a single architecture and without docker labels,
-by running a legacy shell script. See [shell-build](./tree/shell-build#how-to-build-an-image-for-a-supported-app) for details.
+by running a legacy shell script. See [shell-build](https://github.com/git-developer/solarview/tree/shell-build#how-to-build-an-image-for-a-supported-app) for details.
 
 ### How to update an image for a supported app to the current version?
-Manually trigger the GitLab CI build or [create an issue](./issues) and ask the maintainer to do so.
+Manually trigger the GitLab CI build or [create an issue](https://github.com/git-developer/solarview/issues) and ask the maintainer to do so.
 
 ### How to add support for an unsupported app?
 Steps to add support for the unsupported app `foo-fb`:
