@@ -2,59 +2,61 @@
 version: "2.2"
 services:
   solarview:
-    image: ckware/solarview:latest
+    image: ckware/solarview
     container_name: solarview
-    init: true
+    init: "true"
     restart: unless-stopped
     volumes:
-      - ./data/solarview:/var/opt/solarview-fb
-      - ./data/solarview-temp:/var/tmp
+      - "./data/solarview:/var/opt/solarview-fb"
+      - "./data/solarview-temp:/var/tmp"
     environment:
       - TZ=Europe/Berlin
       - ARGS=-nodatexport -i 192.168.178.2 -p 10000 -c 1 -a 1.0 -i3 192.168.178.2 -p3 11000 -enc -TCP 15000
     ports:
-      - 15000:15000
+      - "15000:15000"
     depends_on:
      - solarview-steca
      - solarview-d0
 
   solarview-steca:
-    image: ckware/solarview-steca:latest
+    image: ckware/solarview-steca
     container_name: solarview-steca
-    init: true
+    init: "true"
     restart: unless-stopped
     volumes:
-      - ./data/steca:/var/opt/steca-fb
+      - "./data/steca:/var/opt/steca-fb"
     environment:
       - TZ=Europe/Berlin
       - ARGS=-c 1 -p /dev/ttyUSB0 -w 5460
     ports:
-      - 10000:10000
+      - "10000:10000"
     devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    tty: "true"
 
   solarview-d0:
-    image: ckware/solarview-d0:latest
+    image: ckware/solarview-d0
     container_name: solarview-d0
-    init: true
+    init: "true"
     restart: unless-stopped
     volumes:
-      - ./data/d0:/var/opt/d0-fb
+      - "./data/d0:/var/opt/d0-fb"
     environment:
       - TZ=Europe/Berlin
       - ARGS=-p /dev/ttyUSB1 -l 11000 -cs7
     ports:
-      - 11000:11000
+      - "11000:11000"
     devices:
-      - /dev/ttyUSB1:/dev/ttyUSB1
+      - "/dev/ttyUSB1:/dev/ttyUSB1"
+    tty: "true"
 
   solarview-http:
     image: busybox
     container_name: solarview-http
-    init: true
+    init: "true"
     restart: unless-stopped
     command: ["busybox", "httpd", "-f", "-h", "/www"]
     volumes:
-      - ./data/solarview/homepage:/www:ro
+      - "./data/solarview/homepage:/www:ro"
     ports:
-      - 88:80
+      - "88:80"
