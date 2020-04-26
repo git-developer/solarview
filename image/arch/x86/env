@@ -1,2 +1,0 @@
-ARCH_ID=x86
-RUNTIME_BASE_IMAGE=debian:stable-slim

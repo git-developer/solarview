@@ -1,5 +1,0 @@
-# the default value for APP_BINARIES is cleared because the directory structure
-# of solarview-fb differs from the default. The selection of the correct binary
-# for the runtime architecture is customized in the build hook
-APP_BINARIES=''
-APP_ARCHIVE_URL='http://www.solarview.info/downloads/solarview-fb_neu.zip'
