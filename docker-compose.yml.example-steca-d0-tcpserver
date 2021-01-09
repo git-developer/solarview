@@ -32,7 +32,7 @@ services:
       - "10000:10000"
     devices:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
-    tty: "true"
+    tty: true
 
   solarview-d0:
     image: ckware/solarview-d0
@@ -48,7 +48,7 @@ services:
       - "11000:11000"
     devices:
       - "/dev/ttyUSB1:/dev/ttyUSB1"
-    tty: "true"
+    tty: true
 
   solarview-http:
     image: busybox

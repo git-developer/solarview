@@ -28,7 +28,7 @@ services:
       - ARGS=-c 1 -w 9180
     ports:
       - "10000:10000"
-    tty: "true"
+    tty: true
 
   solarview-d0:
     image: ckware/solarview-d0
@@ -41,7 +41,7 @@ services:
       - TZ=Europe/Berlin
       - ARGS=-l 11000
     network_mode: "host"
-    tty: "true"
+    tty: true
 
   solarview-http:
     image: busybox
