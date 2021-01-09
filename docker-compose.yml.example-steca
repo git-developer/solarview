@@ -4,7 +4,7 @@ services:
   solarview:
     image: ckware/solarview
     container_name: solarview
-    init: "true"
+    init: true
     restart: unless-stopped
     volumes:
       - ./data/solarview:/var/opt/solarview-fb
@@ -18,7 +18,7 @@ services:
   solarview-steca:
     image: ckware/solarview-steca
     container_name: solarview-steca
-    init: "true"
+    init: true
     restart: unless-stopped
     volumes:
       - ./data/steca:/var/opt/steca-fb
@@ -34,7 +34,7 @@ services:
   solarview-http:
     image: busybox
     container_name: solarview-http
-    init: "true"
+    init: true
     restart: unless-stopped
     command: ["busybox", "httpd", "-f", "-h", "/www"]
     volumes:
