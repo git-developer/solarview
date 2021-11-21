@@ -73,10 +73,10 @@ Steps to add support for the unsupported app `foo-fb`:
 1. Create a git repository `solarview-foo` containing the file `.gitlab-ci.yml` with the following content:
     ```yaml
     include:
-      remote: 'https://github.com/git-developer/solarview-base/raw/develop/.gitlab-ci.yml'
+      remote: 'https://github.com/git-developer/solarview-base/raw/main/.gitlab-ci.yml'
     
     variables:
-      DOCKERFILE_URL: 'https://github.com/git-developer/solarview-base/raw/develop/Dockerfile'
+      DOCKERFILE_URL: 'https://github.com/git-developer/solarview-base/raw/main/Dockerfile'
       BUILD_ARGS: 'APP_NAME=foo-fb'
       IMAGE_TITLE: 'SolarView Foo-Proxy'
     ```
